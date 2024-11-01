@@ -105,6 +105,7 @@
   <ItemGroup>
     <ClCompile Include="src\dummy_paramset.cpp" />
     <ClCompile Include="src\NXInterface.cpp" />
+    <ClCompile Include="src\x_jsonclass.cpp" />
     <QtRcc Include="QtWidgetstr.qrc" />
     <QtUic Include="QtWidgetstr.ui" />
     <QtMoc Include="QtWidgetstr.h" />
@@ -116,6 +117,7 @@
     <ClInclude Include="inc\dummy_paramset.h" />
     <ClInclude Include="inc\NXInterface.h" />
     <ClInclude Include="inc\nx_util.h" />
+    <ClInclude Include="inc\x_jsonclass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
