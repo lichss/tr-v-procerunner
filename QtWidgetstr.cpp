@@ -18,6 +18,26 @@ QtWidgetstr::QtWidgetstr(QWidget *parent)
 QtWidgetstr::~QtWidgetstr()
 {}
 
+int QtWidgetstr::delmtableMat()
+{
+    
+    try{
+        // QVector<QVector<QTableWidgetItem*>> mTableMat;
+        for (auto row : mTableMat) {
+            for (auto col : row) {
+                delete col;
+            }
+            row.clear();
+        }
+        mTableMat.clear();
+        return 0;
+    }
+    catch (const std::exception& e) {
+        qDebug() << "Exception caught in delmtableMat: " << e.what();
+        return -1;
+    }
+}
+
 int QtWidgetstr::uuslots1() {
     qInfo() << "Preses Button1\n";
     qInfo() << "inputline edit:" << ui.inputlineEdit->text();
@@ -37,37 +57,43 @@ int QtWidgetstr::uuslots2() {
 
 
     ui.tableWidget->setRowCount(this->pressionList.size());
-
-#if 1
-
+ 
     int row = 0;
+    delmtableMat();
+
+    //QVector<QVector< QTableWidgetItem*>> qv_out;
+    //mTableMat;
     for (auto item : pressionList) {
         QStringList strLsit = item.split('\t');
-        
-        ui.tableWidget->setItem(row, 0, new QTableWidgetItem(strLsit[0]));
-        ui.tableWidget->setItem(row, 1, new QTableWidgetItem(strLsit[1]));
-        ui.tableWidget->setItem(row, 2, new QTableWidgetItem(strLsit[2]));
+        QVector<QTableWidgetItem*> qv;
+
+        QTableWidgetItem* name_ptr = new QTableWidgetItem(strLsit[0]);
+        QTableWidgetItem* equation_ptr = new QTableWidgetItem(strLsit[1]);
+        QTableWidgetItem* unit_ptr = new QTableWidgetItem(strLsit[2]);
+
+        qv.append(name_ptr);
+        qv.append(equation_ptr);
+        qv.append(unit_ptr);
+        mTableMat.append(qv);
+
+        if(name_ptr)
+            ui.tableWidget->setItem(row, 0, name_ptr);
+        if(equation_ptr)
+            ui.tableWidget->setItem(row, 1, equation_ptr);
+        if(unit_ptr)
+            ui.tableWidget->setItem(row, 2, unit_ptr);
         row++;
+        //qInfo() << "-------------------------------";
+        //if (row > 4)
+        //    break;
     }
-
-#else
-    QVector <QVector< QTableWidgetItem >> qtw;
-    QList<QStringList> qLsLs;
-    auto itr = qtw.begin();
-    for (auto item : pressionList)
-    {
-        int i = 0;
-        qLsLs[i] = item.split('\t');
-        qtw.append(QVector<QTableWidgetItem> {QTableWidgetItem(qLsLs[i][0]), QTableWidgetItem(qLsLs[i][1]), QTableWidgetItem(qLsLs[i][2])})
-        
-        *qls = item.split('\t');
-        qInfo() << (*qls)[0];
-        //qtw.append(*qls);  /*¼ÇµÃÉ¾³ý qtw*/
-    }
-    return 0; //debug
+    QTableWidgetItem* test = mTableMat[2][2];
+    if (test)
+        qInfo() << "watch!! : " << (*test).text();
+    else
+        qInfo() << "nullptr";
 
 
-#endif
     
     this->ui.label->setText("over ");
 

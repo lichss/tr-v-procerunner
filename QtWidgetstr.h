@@ -21,10 +21,12 @@ public:
     QString ptrPath;
     QVariant value1;
     QStringList pressionList;
+    QVector<QVector<QTableWidgetItem*>> mTableMat;
 
     QtWidgetstr(QWidget *parent = nullptr);
     ~QtWidgetstr();
 
+    int delmtableMat();
 private slots:
     int uuslots1();
     int uuslots2();

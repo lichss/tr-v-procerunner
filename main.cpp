@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 
 
 	qInfo() << "run begin\n";
-	NXinterface nx;
+	
 	//QString ptrPath = "D:\\env_tr\\u\\trptr\\tanhuangguan-shiyanmoxing.prt";
 
 	QString ptrPath = readJsonf("orders.json");
