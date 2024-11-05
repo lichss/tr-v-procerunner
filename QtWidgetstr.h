@@ -30,6 +30,7 @@ public:
 private slots:
     int uuslots1();
     int uuslots2();
+    int saveTable();
 
  
 private:

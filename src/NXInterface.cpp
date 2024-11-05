@@ -210,6 +210,8 @@ QStringList NXinterface::GetExpression(QString file_name) {
 			tmp += "\t";
 			tmp += expression->Equation().GetLocaleText();  //tmp += QString::number(expression->Value());
 			tmp += "\t";
+			tmp += QString::number(expression->Value());
+			tmp += "\t";
 			if (expression->Units())
 				tmp += expression->Units()->Name().GetLocaleText();
 

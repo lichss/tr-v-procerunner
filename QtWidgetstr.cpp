@@ -12,11 +12,16 @@ QtWidgetstr::QtWidgetstr(QWidget *parent)
     connect(ui.inputlineEdit, SIGNAL(returnPressed()), this, SLOT(uuslots1()));
     connect(ui.loadButton, &QPushButton::pressed, this, &QtWidgetstr::uuslots1);
     connect(ui.loadPtrButton, &QPushButton::pressed, this, &QtWidgetstr::uuslots2);
+    connect(ui.SaveButton, &QPushButton::pressed, this, &QtWidgetstr::saveTable);
+
+    //saveTable
 
 }
 
 QtWidgetstr::~QtWidgetstr()
 {}
+
+
 
 int QtWidgetstr::delmtableMat()
 {
@@ -57,6 +62,8 @@ int QtWidgetstr::uuslots2() {
 
 
     ui.tableWidget->setRowCount(this->pressionList.size());
+    ui.tableWidget->setColumnCount(4);
+
  
     int row = 0;
     delmtableMat();
@@ -69,19 +76,25 @@ int QtWidgetstr::uuslots2() {
 
         QTableWidgetItem* name_ptr = new QTableWidgetItem(strLsit[0]);
         QTableWidgetItem* equation_ptr = new QTableWidgetItem(strLsit[1]);
-        QTableWidgetItem* unit_ptr = new QTableWidgetItem(strLsit[2]);
+        QTableWidgetItem* value_ptr = new QTableWidgetItem(strLsit[2]);
+
+        QTableWidgetItem* unit_ptr = new QTableWidgetItem(strLsit[3]);
 
         qv.append(name_ptr);
         qv.append(equation_ptr);
+        qv.append(value_ptr);
         qv.append(unit_ptr);
+
         mTableMat.append(qv);
 
         if(name_ptr)
             ui.tableWidget->setItem(row, 0, name_ptr);
         if(equation_ptr)
             ui.tableWidget->setItem(row, 1, equation_ptr);
+        if(value_ptr)
+            ui.tableWidget->setItem(row, 2, value_ptr);
         if(unit_ptr)
-            ui.tableWidget->setItem(row, 2, unit_ptr);
+            ui.tableWidget->setItem(row, 3, unit_ptr);
         row++;
         //qInfo() << "-------------------------------";
         //if (row > 4)
@@ -89,13 +102,30 @@ int QtWidgetstr::uuslots2() {
     }
     QTableWidgetItem* test = mTableMat[2][2];
     if (test)
-        qInfo() << "watch!! : " << (*test).text();
+        qInfo() << "watch!! : " << test->text();
     else
         qInfo() << "nullptr";
-
+    
 
     
     this->ui.label->setText("over ");
+
+    return 0;
+}
+
+int QtWidgetstr::saveTable()
+{
+    qInfo() << "SaveButton pressed.";
+    int row = ui.tableWidget->rowCount();
+    int col = ui.tableWidget->columnCount();
+    qInfo() << ui.tableWidget->item(2,2)->text();
+    /*
+    我觉得我找到方法了。
+    只要把表的name  value 对应下来。
+    目前试的结果是表内容可以直接在界面改。ui.tableWidget->item(c,r)会自动发生变化 不需要额外的信号和槽。
+    把save函数做成一次存入并不难。
+    */
+
 
     return 0;
 }
