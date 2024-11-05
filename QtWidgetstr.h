@@ -15,12 +15,12 @@ class QtWidgetstr : public QWidget
     Q_OBJECT
 
 public:
-    /* 大的来了 */
+    
     NXinterface Nxi;
 
     QString ptrPath;
     QVariant value1;
-    QStringList pression_list;
+    QStringList pressionList;
 
     QtWidgetstr(QWidget *parent = nullptr);
     ~QtWidgetstr();

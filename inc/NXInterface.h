@@ -40,17 +40,16 @@ class NX_EXPORT_D NXinterface
 {
 public:
 
-
-
-	int nx_test();
+	int nx_test();	/* 不常用 */
 	int UgRun(const ParamSet& param_set, int times, QString save_file_name, QString& error_message);
 	
-
 	QStringList GetExpression(QString file_name); /*获取 全部表达式 不加过滤*/
 	
 	int GetUgUnitType(const ParamSet& param_set, QString& error_message);
 	
 	QStringList SelectUgParams(const QString& file_name);
+
+	QStringList SelectUgParams(const QString& file_name, const QString& filter_RegularExpression);
 
 
 private:

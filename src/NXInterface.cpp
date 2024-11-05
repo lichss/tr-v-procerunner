@@ -132,14 +132,10 @@ int NXinterface::UgRun(const ParamSet& param_set, int times, QString save_file_n
 				std::string value = param_value.toUtf8().constData();
 
 				//name = "p62'10";				/* 模拟ParamSet */
-				//value = "-0.5";			/* 模拟ParamSet */
+				//value = "-0.5";				/* 模拟ParamSet */
 
 				NXOpen::Expression* expression = work_part->Expressions()->FindObject(name.c_str());
-
-
-
 				//qInfo() << expression->Equation().GetLocaleText() << " " << expression->Type().GetLocaleText() <<" ";
-
 
 				if (expression->Units() == nullptr) {
 					qInfo() << expression->Equation().GetLocaleText() << " "
@@ -153,7 +149,7 @@ int NXinterface::UgRun(const ParamSet& param_set, int times, QString save_file_n
 				}
 
 
-				/*qInfo() << expression->Equation().GetLocaleText() << " " << expression->Type().GetLocaleText()
+				/* qInfo() << expression->Equation().GetLocaleText() << " " << expression->Type().GetLocaleText()
 					<< " " << expression->Units()->Name().getLocaleText();*/
 			}
 			qInfo() << "Updated model successfully.";
@@ -163,10 +159,6 @@ int NXinterface::UgRun(const ParamSet& param_set, int times, QString save_file_n
 			save_status = work_part->Save(NXOpen::BasePart::SaveComponentsTrue, NXOpen::BasePart::CloseAfterSaveFalse);
 			if (int unsaved = save_status->NumberUnsavedParts()) {
 				qWarning() << unsaved << " part(s) cannot be saved.";
-				// 			auto tp = save_status->GetPart(unsaved-1);
-				// 			QString fp = tp->FullPath().GetText();
-				// 			qWarning() << fp;
-
 
 			}
 			else {
@@ -215,6 +207,12 @@ QStringList NXinterface::GetExpression(QString file_name) {
 		for (auto it = expressionCollection->begin(); it != expressionCollection->end(); it++) {
 			NXOpen::Expression* expression = dynamic_cast<NXOpen::Expression*>(*it);
 			QString tmp = expression->Name().GetLocaleText();
+			tmp += "\t";
+			tmp += expression->Equation().GetLocaleText();
+			tmp += "\t";
+			if (expression->Units())
+				tmp += expression->Units()->Name().GetLocaleText();
+
 			Expression_list.append(tmp);
 
 		}
@@ -342,4 +340,50 @@ QStringList NXinterface::SelectUgParams(const QString& file_name)
 }
 
 
+QStringList NXinterface::SelectUgParams(const QString& file_name, const QString& filter_RegularExpression)
+{
+	QStringList param_list;
+	try
+	{
+		NXOpen::Session* session = NXOpen::Session::GetSession();//获取对象
+		auto* parts = session->Parts();
+		NXOpen::PartCloseResponses* response{ nullptr };
+		parts->CloseAll(NXOpen::BasePart::CloseModifiedUseResponses, response);//关闭已打开的部件
+		// 导入模型
+		NXOpen::PartLoadStatus* status{ nullptr };
+		NXOpen::BasePart* base_part = parts->OpenBaseDisplay(file_name.toLocal8Bit().constData(), &status);//打开部件
+
+		NXOpen::Part* work_part = parts->Work();
+		//关闭
+		delete status;
+
+		NXOpen::ExpressionCollection* expressionCollection = work_part->Expressions();
+
+		for (auto it = expressionCollection->begin(); it != expressionCollection->end(); ++it)
+		{
+			NXOpen::Expression* expression = dynamic_cast<NXOpen::Expression*>(*it);
+			QString tmp = expression->Name().GetLocaleText();
+			//过滤p开头+后第一位跟数字
+			//QRegularExpression regex("^p\\d");
+			QRegularExpression regex(filter_RegularExpression);
+
+			QRegularExpressionMatch filter = regex.match(tmp);
+			//qInfo() << tmp;
+			if (filter.hasMatch()) {
+				//param_list.append(tmp);
+				continue;
+			}
+			else {
+				param_list.append(tmp);
+			}
+		}
+	}
+	catch (NXOpen::NXException& e)
+	{
+
+		qWarning() << e.what();
+		return param_list;
+	}
+	return param_list;
+}
 
