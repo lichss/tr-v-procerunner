@@ -436,12 +436,14 @@ int NXinterface::writeExpressions(const QString ptrFilePath, const QStringList& 
 		/* Áí´æÎª */
 		QString savef;
 		savef = QDir::toNativeSeparators(saveFilePath);
-		QFile temp_ug_file(savef);
+		QString tmp = savef.endsWith(".prt") ? savef : savef + ".prt";
 
+		QFile temp_ug_file(tmp);
 		if (temp_ug_file.exists()) {
 			temp_ug_file.remove();
 		}
-		std::string tmp = savef.toStdString();
+		if (savef.endsWith(".prt"))
+			savef.chop(4);
 		//savef = QDir::toNativeSeparators(savef);
 		work_part->SaveAs(savef.toStdString());
 
