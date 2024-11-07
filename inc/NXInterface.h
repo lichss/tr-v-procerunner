@@ -28,7 +28,7 @@
 #include <QDir>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
-
+#include <QStringList> 
 //#include "../618/core/hy_context.h"
 #include "dummy_paramset.h"	/* 增加这个.h是为了让测试通过。正常使用应该用上面的 ../618/core/hy_context.h  而不是这个 */
 
@@ -50,6 +50,12 @@ public:
 	QStringList SelectUgParams(const QString& file_name);
 
 	QStringList SelectUgParams(const QString& file_name, const QString& filter_RegularExpression);
+
+	int writeExpressions(const QString ptrFilePath, const QStringList& expressionList, const QString saveFilePath);
+
+	//int writeExpressions(const QString ptrPath, const QStringList& expressionList);
+
+	
 
 
 private:

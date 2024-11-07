@@ -16,7 +16,7 @@
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>580</x>
      <y>530</y>
      <width>311</width>
      <height>31</height>
@@ -74,7 +74,7 @@
     <rect>
      <x>200</x>
      <y>60</y>
-     <width>311</width>
+     <width>691</width>
      <height>23</height>
     </rect>
    </property>
@@ -107,7 +107,7 @@
     <rect>
      <x>200</x>
      <y>160</y>
-     <width>551</width>
+     <width>691</width>
      <height>351</height>
     </rect>
    </property>

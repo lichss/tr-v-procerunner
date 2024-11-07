@@ -389,3 +389,72 @@ QStringList NXinterface::SelectUgParams(const QString& file_name, const QString&
 	return param_list;
 }
 
+int NXinterface::writeExpressions(const QString ptrFilePath, const QStringList& expressionList, const QString saveFilePath) {
+
+	try{
+		NXOpen::Session* session = NXOpen::Session::GetSession();//获取对象
+		auto* parts = session->Parts();
+		NXOpen::PartCloseResponses* response{ nullptr };
+		parts->CloseAll(NXOpen::BasePart::CloseModifiedUseResponses, response);//关闭已打开的部件
+		// 导入模型
+		NXOpen::PartLoadStatus* status{ nullptr };
+		NXOpen::BasePart* base_part = parts->OpenBaseDisplay(ptrFilePath.toLocal8Bit().constData(), &status);//打开部件
+
+		NXOpen::Part* work_part = parts->Work();
+
+		delete status;//关闭
+
+		NXOpen::ExpressionCollection* expressionCollection = work_part->Expressions();
+
+		for (auto item : expressionList) {
+			try {
+				QStringList namevalue = item.split('\t');
+				NXOpen::Expression* expression = work_part->Expressions()->FindObject(namevalue[0].toStdString().c_str());
+				expression->SetRightHandSide(namevalue[1].toStdString().c_str());
+				qInfo() << "write" << namevalue[0] << namevalue[1];
+			}
+			catch (NXOpen::NXException& e) {
+				qDebug() << e.what();
+				//error_msg += QString(u8"更新操作失败，请检查值是否在有效范围内，变量名：") + QString(name.c_str());
+				//is_success = false;
+			}
+
+		}
+
+		/* 直接修改  */
+		//NXOpen::PartSaveStatus* save_status;
+		//save_status = work_part->Save(NXOpen::BasePart::SaveComponentsTrue, NXOpen::BasePart::CloseAfterSaveFalse);
+		//if (int unsaved = save_status->NumberUnsavedParts()) {
+		//	qWarning() << unsaved << " part(s) cannot be saved.";
+		//}
+		//else {
+		//	qInfo() << "All parts saved successfully.";
+		//}
+		//delete save_status;
+
+
+		/* 另存为 */
+		QString savef;
+		savef = QDir::toNativeSeparators(saveFilePath);
+		QFile temp_ug_file(savef);
+
+		if (temp_ug_file.exists()) {
+			temp_ug_file.remove();
+		}
+		std::string tmp = savef.toStdString();
+		//savef = QDir::toNativeSeparators(savef);
+		work_part->SaveAs(savef.toStdString());
+
+		//work_part->SaveAs("D:\\env_tr\\u\\trptr\\C_moog_qianzhiji_cpaa.prt");
+		qInfo() << "prt file saved successfully.";
+
+	}
+	catch(NXOpen::NXException & e)
+	{
+
+		qWarning() << e.what();
+		
+		return -1;
+	}
+	return 0;
+}

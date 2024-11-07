@@ -66,7 +66,7 @@ int QtWidgetstr::uuslots2() {
 
  
     int row = 0;
-    delmtableMat();
+    //delmtableMat();
 
     //QVector<QVector< QTableWidgetItem*>> qv_out;
     //mTableMat;
@@ -77,15 +77,14 @@ int QtWidgetstr::uuslots2() {
         QTableWidgetItem* name_ptr = new QTableWidgetItem(strLsit[0]);
         QTableWidgetItem* equation_ptr = new QTableWidgetItem(strLsit[1]);
         QTableWidgetItem* value_ptr = new QTableWidgetItem(strLsit[2]);
-
         QTableWidgetItem* unit_ptr = new QTableWidgetItem(strLsit[3]);
 
-        qv.append(name_ptr);
-        qv.append(equation_ptr);
-        qv.append(value_ptr);
-        qv.append(unit_ptr);
+        //qv.append(name_ptr);
+        //qv.append(equation_ptr);
+        //qv.append(value_ptr);
+        //qv.append(unit_ptr);
 
-        mTableMat.append(qv);
+        //mTableMat.append(qv);
 
         if(name_ptr)
             ui.tableWidget->setItem(row, 0, name_ptr);
@@ -100,11 +99,11 @@ int QtWidgetstr::uuslots2() {
         //if (row > 4)
         //    break;
     }
-    QTableWidgetItem* test = mTableMat[2][2];
+ /*   QTableWidgetItem* test = mTableMat[2][2];
     if (test)
         qInfo() << "watch!! : " << test->text();
     else
-        qInfo() << "nullptr";
+        qInfo() << "nullptr";*/
     
 
     
@@ -115,16 +114,25 @@ int QtWidgetstr::uuslots2() {
 
 int QtWidgetstr::saveTable()
 {
+    QString savefile = "D:\\env_tr\\u\\trptr\\savesave";
     qInfo() << "SaveButton pressed.";
+    qInfo() << "Now ptr file" << ptrPath;
+
     int row = ui.tableWidget->rowCount();
     int col = ui.tableWidget->columnCount();
-    qInfo() << ui.tableWidget->item(2,2)->text();
+
     /*
-    我觉得我找到方法了。
-    只要把表的name  value 对应下来。
-    目前试的结果是表内容可以直接在界面改。ui.tableWidget->item(c,r)会自动发生变化 不需要额外的信号和槽。
-    把save函数做成一次存入并不难。
+        我觉得我找到方法了。
+        只要把表的name  value 对应下来。
+        目前试的结果是表内容可以直接在界面改。ui.tableWidget->item(c,r)会自动发生变化 不需要额外的信号和槽。
+        把save函数做成一次存入并不难。
     */
+    QStringList namevalue;
+    for (int i = 0; i < row; i++) {       
+        namevalue.append( ui.tableWidget->item(i, 0)->text() + "\t"
+            + ui.tableWidget->item(i, 2)->text() );
+    }
+    Nxi.writeExpressions(ptrPath,namevalue,savefile);
 
 
     return 0;
