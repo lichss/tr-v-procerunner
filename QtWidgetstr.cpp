@@ -1,6 +1,7 @@
 #include "QtWidgetstr.h"
 #include "qpushbutton.h"
-
+#include "qsettings.h"
+#include "qfiledialog.h"
 
 #include <qvector.h>
 #include <qlist.h>
@@ -13,7 +14,7 @@ QtWidgetstr::QtWidgetstr(QWidget *parent)
     connect(ui.loadButton, &QPushButton::pressed, this, &QtWidgetstr::uuslots1);
     connect(ui.loadPtrButton, &QPushButton::pressed, this, &QtWidgetstr::uuslots2);
     connect(ui.SaveButton, &QPushButton::pressed, this, &QtWidgetstr::saveTable);
-
+    connect(ui.selectButton, &QPushButton::pressed, this, &QtWidgetstr::select);
     //saveTable
 
 }
@@ -24,8 +25,7 @@ QtWidgetstr::~QtWidgetstr()
 
 
 int QtWidgetstr::delmtableMat()
-{
-    
+{ 
     try{
         // QVector<QVector<QTableWidgetItem*>> mTableMat;
         for (auto row : mTableMat) {
@@ -122,11 +122,8 @@ int QtWidgetstr::saveTable()
     int col = ui.tableWidget->columnCount();
 
     /*
-        我觉得我找到方法了。
-        只要把表的name  value 对应下来。
-        目前试的结果是表内容可以直接在界面改。ui.tableWidget->item(c,r)会自动发生变化 不需要额外的信号和槽。
-        把save函数做成一次存入并不难。
-    */
+     *   我觉得我找到方法了。
+     */
     QStringList namevalue;
     for (int i = 0; i < row; i++) {       
         namevalue.append( ui.tableWidget->item(i, 0)->text() + "\t"
@@ -138,6 +135,14 @@ int QtWidgetstr::saveTable()
     return 0;
 }
 
+int QtWidgetstr::select() {
+    qInfo() << "Select.\n";
+    QSettings settings("TongYuan", "AmphibiousOptimize");
+    QString fileName = QFileDialog::getOpenFileName(this,"select prt", "", "PTR Files (*.prt);;All Files (*)");
+    Nxi.runUGwin("cnm geiwo show!!", fileName);
+    //第一个参数暂时没啥用。随便填，图个吉利。
 
-
+    qInfo() << fileName << "geted.\n";
+    return 0;
+}
 

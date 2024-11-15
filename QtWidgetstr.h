@@ -32,6 +32,8 @@ private slots:
     int uuslots2();
     int saveTable();
 
+    int select();
+
  
 private:
     Ui::QtWidgetstrClass ui;

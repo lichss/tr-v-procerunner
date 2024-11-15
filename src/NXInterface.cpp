@@ -460,3 +460,39 @@ int NXinterface::writeExpressions(const QString ptrFilePath, const QStringList& 
 	}
 	return 0;
 }
+
+
+int NXinterface::runUGwin(QString UgPathName,QString ptrPathName) {
+
+	QProcess process;
+	QString programPathName = "D:\\_3_workspace\\NX_interface0\\UGII\\ugs_router.exe";
+	
+	qInfo() << "ptrfielpname: " << ptrPathName;
+	QStringList argus;
+	argus << "-ug"  << "-use_file_dir" << ptrPathName;
+	//argus << "-ug"  << "-use_file_dir" << ptrPathName;
+	// 
+	// D:\_3_workspace\dd\deliver\exe
+	
+	process.start(programPathName ,argus);
+
+
+	// 等待程序启动
+    if (!process.waitForStarted()) {
+		std::cout << "Failed to start the process.";
+
+        return -1;
+    }
+
+    // 如果需要等待程序结束，可以使用 waitForFinished()
+    if (!process.waitForFinished()) {
+        std::cout << "Process failed to finish.";
+        return -1;
+    }
+
+
+
+
+
+	return 1;
+}

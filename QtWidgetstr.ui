@@ -221,6 +221,25 @@
    <column/>
    <column/>
   </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>800</x>
+     <y>100</y>
+     <width>91</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QPushButton" name="selectButton">
+      <property name="text">
+       <string>SelectFile</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
