@@ -79,12 +79,6 @@ int QtWidgetstr::uuslots2() {
         QTableWidgetItem* value_ptr = new QTableWidgetItem(strLsit[2]);
         QTableWidgetItem* unit_ptr = new QTableWidgetItem(strLsit[3]);
 
-        //qv.append(name_ptr);
-        //qv.append(equation_ptr);
-        //qv.append(value_ptr);
-        //qv.append(unit_ptr);
-
-        //mTableMat.append(qv);
 
         if(name_ptr)
             ui.tableWidget->setItem(row, 0, name_ptr);
@@ -95,15 +89,7 @@ int QtWidgetstr::uuslots2() {
         if(unit_ptr)
             ui.tableWidget->setItem(row, 3, unit_ptr);
         row++;
-        //qInfo() << "-------------------------------";
-        //if (row > 4)
-        //    break;
     }
- /*   QTableWidgetItem* test = mTableMat[2][2];
-    if (test)
-        qInfo() << "watch!! : " << test->text();
-    else
-        qInfo() << "nullptr";*/
     
 
     
@@ -121,9 +107,6 @@ int QtWidgetstr::saveTable()
     int row = ui.tableWidget->rowCount();
     int col = ui.tableWidget->columnCount();
 
-    /*
-     *   我觉得我找到方法了。
-     */
     QStringList namevalue;
     for (int i = 0; i < row; i++) {       
         namevalue.append( ui.tableWidget->item(i, 0)->text() + "\t"
@@ -138,11 +121,19 @@ int QtWidgetstr::saveTable()
 int QtWidgetstr::select() {
     qInfo() << "Select.\n";
     QSettings settings("TongYuan", "AmphibiousOptimize");
-    QString fileName = QFileDialog::getOpenFileName(this,"select prt", "", "PTR Files (*.prt);;All Files (*)");
-    Nxi.runUGwin("cnm geiwo show!!", fileName);
+   // QString fileName = QFileDialog::getOpenFileName(this,"select prt", "", "PTR Files (*.prt);;All Files (*)");
+
+    
+    QString UgsRouterPath = QFileDialog::getOpenFileName(this,"select ugs_routet", "", "EXE Files (*.exe);;All Files (*)");
+    Nxi.runUGwin(UgsRouterPath, this->ptrPath);
     //第一个参数暂时没啥用。随便填，图个吉利。
 
-    qInfo() << fileName << "geted.\n";
+    qInfo() << UgsRouterPath << "geted.\n";
     return 0;
 }
 
+int QtWidgetstr::updLabel(QString text) {
+
+    ui.label->setText(text);
+    return 0;
+}

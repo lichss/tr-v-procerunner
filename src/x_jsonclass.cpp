@@ -1,9 +1,7 @@
 #include "x_jsonclass.h"
 
 
-QString readJsonf(QString jsonPath) {
-
-
+QString readJsonf(QString jsonPath){
 	QString NjsonPath = QDir::fromNativeSeparators(jsonPath);
 	qInfo() << "openning" << NjsonPath << "\n";
 
@@ -27,7 +25,7 @@ QString readJsonf(QString jsonPath) {
 
 	// 处理 JSON 数据
 	// 示例：获取 "name" 字段的值
-	QString order = jsonObject["order1"].toString();
+	QString order = jsonObject["prtPath"].toString();
 	//int order1 = jsonObject.value("order1").toInt();
 	qInfo() << "get order:" << order;
 

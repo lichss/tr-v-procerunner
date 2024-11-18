@@ -33,6 +33,7 @@
 //#include "../618/core/hy_context.h"
 #include "dummy_paramset.h"	/* 增加这个.h是为了让测试通过。正常使用应该用上面的 ../618/core/hy_context.h  而不是这个 */
 
+#define UGS_ROUTER_FilePath "D:\\_3_workspace\\NX_interface0\\UGII\\ugs_router.exe" 
 #define NX_EXPORT_D _declspec(dllexport)
 
 

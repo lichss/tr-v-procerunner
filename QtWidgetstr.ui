@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>915</width>
-    <height>563</height>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>QtWidgetstr</string>
+   <string>NX操作界面</string>
   </property>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
@@ -26,14 +26,14 @@
     <item>
      <widget class="QPushButton" name="loadButton">
       <property name="text">
-       <string>Load</string>
+       <string>加载</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="loadPtrButton">
       <property name="text">
-       <string>LoadPtr</string>
+       <string>读取prt</string>
       </property>
      </widget>
     </item>
@@ -53,7 +53,7 @@
     <item>
      <widget class="QPushButton" name="SaveButton">
       <property name="text">
-       <string>Save</string>
+       <string>保存</string>
       </property>
      </widget>
     </item>
@@ -84,12 +84,12 @@
     <rect>
      <x>30</x>
      <y>120</y>
-     <width>68</width>
-     <height>15</height>
+     <width>341</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>running</string>
    </property>
   </widget>
   <widget class="QListWidget" name="listWidget">
@@ -234,7 +234,7 @@
     <item>
      <widget class="QPushButton" name="selectButton">
       <property name="text">
-       <string>SelectFile</string>
+       <string>选择</string>
       </property>
      </widget>
     </item>

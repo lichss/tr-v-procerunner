@@ -6,9 +6,9 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-QString readJsonf(QString jsonPath);
+//QString readJsonf(QString jsonPath);
 
-
+QString readJsonf(QString jsonPath );
 class xJson
 {
 public:

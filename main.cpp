@@ -21,7 +21,10 @@ int main(int argc, char* argv[])
 	
 	//QString ptrPath = "D:\\env_tr\\u\\trptr\\tanhuangguan-shiyanmoxing.prt";
 
-	QString ptrPath = readJsonf("orders.json");
+	/* 从json读取参数*/
+	QString ptrPath = readJsonf(JSON_FilePath);
+
+	w.updLabel(ptrPath);
 	w.ptrPath = ptrPath;
 	w.value1 = 1.11;
 

@@ -470,12 +470,11 @@ int NXinterface::runUGwin(QString UgPathName,QString ptrPathName) {
 	qInfo() << "ptrfielpname: " << ptrPathName;
 	QStringList argus;
 	argus << "-ug"  << "-use_file_dir" << ptrPathName;
-	//argus << "-ug"  << "-use_file_dir" << ptrPathName;
-	// 
-	// D:\_3_workspace\dd\deliver\exe
 	
-	process.start(programPathName ,argus);
-
+	if (0)
+		process.start(programPathName, argus);
+	else
+		process.start(UgPathName, argus);
 
 	// µÈ´ý³ÌÐòÆô¶¯
     if (!process.waitForStarted()) {
