@@ -47,7 +47,7 @@ int QtWidgetstr::uuslots1() {
     qInfo() << "Preses Button1\n";
     qInfo() << "inputline edit:" << ui.inputlineEdit->text();
 
-    this->ui.showlineEdit->setText(this->ptrPath);
+    this->ui.showlineEdit->setText(this->prtPath);
     this->ui.label->setText("1");
 
     return 0;
@@ -57,8 +57,8 @@ int QtWidgetstr::uuslots2() {
     qInfo() << "Preses Button2\n";
 
     this->ui.label->setText("loading ");
-    this->ptrPath = "D:\\env_tr\\u\\trptr\\C_moog_qianzhiji.prt";
-    this->pressionList = this->Nxi.GetExpression(this->ptrPath);
+    this->prtPath = "D:\\env_tr\\u\\trptr\\C_moog_qianzhiji.prt";
+    this->pressionList = this->Nxi.GetExpression(this->prtPath);
 
 
     ui.tableWidget->setRowCount(this->pressionList.size());
@@ -102,7 +102,16 @@ int QtWidgetstr::saveTable()
 {
     QString savefile = "D:\\env_tr\\u\\trptr\\savesave";
     qInfo() << "SaveButton pressed.";
-    qInfo() << "Now ptr file" << ptrPath;
+    qInfo() << "Now ptr file" << prtPath;
+    
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Prt Files (*.prt);;All Files (*)"));
+
+    if (fileName.isEmpty()) {
+        // 用户取消了保存操作
+        return -1;
+    }
+
+
 
     int row = ui.tableWidget->rowCount();
     int col = ui.tableWidget->columnCount();
@@ -112,7 +121,7 @@ int QtWidgetstr::saveTable()
         namevalue.append( ui.tableWidget->item(i, 0)->text() + "\t"
             + ui.tableWidget->item(i, 2)->text() );
     }
-    Nxi.writeExpressions(ptrPath,namevalue,savefile);
+    Nxi.writeExpressions(prtPath,namevalue,fileName);
 
 
     return 0;
@@ -125,8 +134,7 @@ int QtWidgetstr::select() {
 
     
     QString UgsRouterPath = QFileDialog::getOpenFileName(this,"select ugs_routet", "", "EXE Files (*.exe);;All Files (*)");
-    Nxi.runUGwin(UgsRouterPath, this->ptrPath);
-    //第一个参数暂时没啥用。随便填，图个吉利。
+    Nxi.runUGwin(UgsRouterPath, this->prtPath);
 
     qInfo() << UgsRouterPath << "geted.\n";
     return 0;

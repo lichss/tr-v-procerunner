@@ -23,7 +23,7 @@ public:
     
     NXinterface Nxi;
 
-    QString ptrPath;
+    QString prtPath;
     QVariant value1;
     QStringList pressionList;
     QVector<QVector<QTableWidgetItem*>> mTableMat;
