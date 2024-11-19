@@ -1,10 +1,5 @@
 #include "QtWidgetstr.h"
-#include "qpushbutton.h"
-#include "qsettings.h"
-#include "qfiledialog.h"
 
-#include <qvector.h>
-#include <qlist.h>
 QtWidgetstr::QtWidgetstr(QWidget *parent)
     : QWidget(parent)
 {
@@ -12,7 +7,7 @@ QtWidgetstr::QtWidgetstr(QWidget *parent)
 
     connect(ui.inputlineEdit, SIGNAL(returnPressed()), this, SLOT(uuslots1()));
     connect(ui.loadButton, &QPushButton::pressed, this, &QtWidgetstr::uuslots1);
-    connect(ui.loadPtrButton, &QPushButton::pressed, this, &QtWidgetstr::uuslots2);
+    connect(ui.loadPtrButton, &QPushButton::pressed, this, &QtWidgetstr::loadPrtFileTotable);
     connect(ui.SaveButton, &QPushButton::pressed, this, &QtWidgetstr::saveTable);
     connect(ui.selectButton, &QPushButton::pressed, this, &QtWidgetstr::select);
     //saveTable
@@ -53,11 +48,12 @@ int QtWidgetstr::uuslots1() {
     return 0;
 }
 
-int QtWidgetstr::uuslots2() {
+int QtWidgetstr::loadPrtFileTotable() {
     qInfo() << "Preses Button2\n";
 
-    this->ui.label->setText("loading ");
-    this->prtPath = "D:\\env_tr\\u\\trptr\\C_moog_qianzhiji.prt";
+    //this->ui.label->setText("loading ");
+    qInfo() << "Loading..";
+    //this->prtPath = "D:\\env_tr\\u\\trptr\\C_moog_qianzhiji.prt";
     this->pressionList = this->Nxi.GetExpression(this->prtPath);
 
 
@@ -93,25 +89,24 @@ int QtWidgetstr::uuslots2() {
     
 
     
-    this->ui.label->setText("over ");
+    updLabel(prtPath);
+    
 
     return 0;
 }
 
 int QtWidgetstr::saveTable()
 {
-    QString savefile = "D:\\env_tr\\u\\trptr\\savesave";
     qInfo() << "SaveButton pressed.";
     qInfo() << "Now ptr file" << prtPath;
-    
+    updLabel(prtPath);
+
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Prt Files (*.prt);;All Files (*)"));
 
     if (fileName.isEmpty()) {
         // 用户取消了保存操作
         return -1;
     }
-
-
 
     int row = ui.tableWidget->rowCount();
     int col = ui.tableWidget->columnCount();
@@ -133,7 +128,14 @@ int QtWidgetstr::select() {
    // QString fileName = QFileDialog::getOpenFileName(this,"select prt", "", "PTR Files (*.prt);;All Files (*)");
 
     
-    QString UgsRouterPath = QFileDialog::getOpenFileName(this,"select ugs_routet", "", "EXE Files (*.exe);;All Files (*)");
+//    QString UgsRouterPath = QFileDialog::getOpenFileName(this,"select ugs_routet", "", "EXE Files (*.exe);;All Files (*)");
+    QString UgsRouterPath = sysenvirFind("UGS_ROUTER_PATH");
+    if (UgsRouterPath.isEmpty())
+    {
+        QMessageBox::warning(this, "Warning", "No EnvironmentVariable find.");
+        QString UgsRouterPath = QFileDialog::getOpenFileName(this,"select ugs_routet", "", "EXE Files (*.exe);;All Files (*)");
+
+    }
     Nxi.runUGwin(UgsRouterPath, this->prtPath);
 
     qInfo() << UgsRouterPath << "geted.\n";
@@ -145,3 +147,18 @@ int QtWidgetstr::updLabel(QString text) {
     ui.label->setText(text);
     return 0;
 }
+
+QString QtWidgetstr::sysenvirFind(QString envKey) {
+
+    QString EnvValueString;
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    if (!env.contains(envKey)){
+//        qInfo() << "妹找到啊，你根本就不在沈阳，你在哪呢？\n not find.w";
+        return EnvValueString;
+    }
+    
+ //   qInfo() << "有环境变量:\nfind env.as:\n" << env.value("UGS_ROUTER_PATH");
+    return env.value(envKey);
+    
+}
+

@@ -3,7 +3,6 @@
 
 #include "QtWidgetstr.h"
 #include <QtWidgets/QApplication>
-
 #include "NXInterface.h"
 #include "x_jsonclass.h"
 
@@ -15,7 +14,6 @@ int main(int argc, char* argv[])
 	QtWidgetstr w;
 	w.prtPath = "NULL";
 	w.show();
-
 
 	qInfo() << "run begin\n";
 	

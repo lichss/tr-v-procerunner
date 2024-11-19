@@ -3,6 +3,13 @@
 #include <QtWidgets/QWidget>
 #include <QProcess>
 #include <QDebug>
+#include <QPushbutton>
+#include <QSettings>
+#include <QFiledialog>
+#include <QVector>
+#include <QList>
+#include <QProcessEnvironment>
+#include <QMessageBox>
 
 /**/
 #include "ui_QtWidgetstr.h"
@@ -34,9 +41,11 @@ public:
     int delmtableMat();
     int updLabel(QString text);
 
+    QString sysenvirFind(QString envKey);
+
 private slots:
     int uuslots1();
-    int uuslots2();
+    int loadPrtFileTotable();
     int saveTable();
 
     int select();
